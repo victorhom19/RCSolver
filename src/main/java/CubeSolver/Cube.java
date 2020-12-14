@@ -1,20 +1,24 @@
-package Cube;
+package CubeSolver;
 
 import java.util.Arrays;
 
 public class Cube {
-    
+
     Chromosome chromosome;
     int[] state;
     int fitness;
 
-    Cube(Chromosome chromosome, int[] startPosition) {
+    public Cube(Chromosome chromosome, int[] startPosition) {
         this.chromosome = chromosome;
         this.state = Arrays.copyOf(startPosition, startPosition.length);
         for (int action : chromosome.genes) {
             this.roll(action);
         }
         this.fitness = calculateFitness();
+    }
+
+    public Chromosome getChromosome() {
+        return chromosome;
     }
 
     public int calculateFitness() {
@@ -40,15 +44,24 @@ public class Cube {
         return stringBuilder.toString();
     }
 
-    private void roll(int rollId) {
-        int t = -1;
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (this.getClass() != other.getClass()) return false;
+        for (int i = 0; i < 54; i ++) {
+            if (this.state[i] != ((Cube) other).state[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void roll(int rollId) {
+        int t;
         switch(rollId){
             case -1:
                 break;
             case 0:
-                /*
-                 * =======    U    ========
-                 */
                 t = this.state[53];
                 this.state[53] = this.state[33];
                 this.state[33] = this.state[36];
@@ -80,9 +93,6 @@ public class Cube {
                 this.state[14] = t;
                 break;
             case 1:
-                /*
-                 * =======    U'   ========
-                 */
                 t = this.state[20];
                 this.state[20] = this.state[36];
                 this.state[36] = this.state[33];
@@ -101,8 +111,6 @@ public class Cube {
                 this.state[35] = this.state[47];
                 this.state[47] = t;
 
-
-                //Corner
                 t = this.state[11];
                 this.state[11] = this.state[17];
                 this.state[17] = this.state[15];
@@ -116,9 +124,6 @@ public class Cube {
                 this.state[10] = t;
                 break;
             case 2:
-                /*
-                 * =======    D    ========
-                 */
                 t = this.state[0];
                 this.state[0] = this.state[2];
                 this.state[2] = this.state[8];
@@ -150,11 +155,6 @@ public class Cube {
                 this.state[26] = t;
                 break;
             case 3:
-                /*
-                 * =======    D'   ========
-                 */
-
-                //Corner
                 t = this.state[6];
                 this.state[6] = this.state[8];
                 this.state[8] = this.state[2];
@@ -186,9 +186,6 @@ public class Cube {
                 this.state[51] = t;
                 break;
             case 4:
-                /*
-                 * =======    L    ========
-                 */
                 t = this.state[51];
                 this.state[51] = this.state[53];
                 this.state[53] = this.state[47];
@@ -220,9 +217,6 @@ public class Cube {
                 this.state[20] = t;
                 break;
             case 5:
-                /*
-                 * =======    L'   ========
-                 */
                 t = this.state[45];
                 this.state[45] = this.state[47];
                 this.state[47] = this.state[53];
@@ -254,9 +248,6 @@ public class Cube {
                 this.state[15] = t;
                 break;
             case 6:
-                /*
-                 * =======    R    ========
-                 */
                 t = this.state[36];
                 this.state[36] = this.state[42];
                 this.state[42] = this.state[44];
@@ -288,9 +279,6 @@ public class Cube {
                 this.state[27] = t;
                 break;
             case 7:
-                /*
-                 * =======    R'   ========
-                 */
                 t = this.state[38];
                 this.state[38] = this.state[44];
                 this.state[44] = this.state[42];
@@ -322,9 +310,6 @@ public class Cube {
                 this.state[0] = t;
                 break;
             case 8:
-                /*
-                 * =======    B    ========
-                 */
                 t = this.state[18];
                 this.state[18] = this.state[24];
                 this.state[24] = this.state[26];
@@ -356,9 +341,6 @@ public class Cube {
                 this.state[38] = t;
                 break;
             case 9:
-                /*
-                 * =======    B'   ========
-                 */
                 t = this.state[20];
                 this.state[20] = this.state[26];
                 this.state[26] = this.state[24];
@@ -390,9 +372,6 @@ public class Cube {
                 this.state[2] = t;
                 break;
             case 10:
-                /*
-                 * =======    F    ========
-                 */
                 t = this.state[27];
                 this.state[27] = this.state[33];
                 this.state[33] = this.state[35];
@@ -424,9 +403,6 @@ public class Cube {
                 this.state[8] = t;
                 break;
             case 11:
-                /*
-                 * =======    F'   ========
-                 */
                 t = this.state[29];
                 this.state[29] = this.state[35];
                 this.state[35] = this.state[33];
